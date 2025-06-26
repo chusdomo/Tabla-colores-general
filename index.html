@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paleta de Colores</title>
+    <style>
+        body {
+            font-size: 2rem;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .color-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+        }
+        .color-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .color-item:hover {
+            transform: scale(1.03);
+        }
+        .color-name {
+            padding: 1rem;
+            text-align: center;
+            background-color: white;
+        }
+        .color-strip {
+            display: flex;
+        }
+        .color-block {
+            width: 50%;
+            height: 70px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Paleta de Colores</h1>
+    </header>
+
+    <div class="color-list" id="colorList"></div>
+
+    <script>
+        const data = [
+          {"Color":"Acacia","HEX Original":"#DACD65","Color Original":"","HEX Complementario":"#25329A","Color Complementario":"","RGB (0-100)":"(85, 80, 40)","RGB (0-255)":"(218, 205, 101)","RYB (0-100)":"(15, 75, 5)"},
+          {"Color":"Ágata","HEX Original":"#827B60","Color Original":"","HEX Complementario":"#7D849F","Color Complementario":"","RGB (0-100)":"(51, 48, 38)","RGB (0-255)":"(130, 123, 96)","RYB (0-100)":"(30, 40, 25)"},
+          {"Color":"Aguacate","HEX Original":"#568203","Color Original":"","HEX Complementario":"#A97DFC","Color Complementario":"","RGB (0-100)":"(34, 51, 1)","RGB (0-255)":"(86, 130, 3)","RYB (0-100)":"(15, 85, 40)"},
+          {"Color":"Aguamarina","HEX Original":"#7FFFD4","Color Original":"","HEX Complementario":"#80002B","Color Complementario":"","RGB (0-100)":"(50, 100, 83)","RGB (0-255)":"(127, 255, 212)","RYB (0-100)":"(0, 40, 60)"},
+          {"Color":"Amanecer","HEX Original":"#FFB84C","Color Original":"","HEX Complementario":"#0047B3","Color Complementario":"","RGB (0-100)":"(100, 72, 30)","RGB (0-255)":"(255, 184, 76)","RYB (0-100)":"(35, 65, 0)"},
+          {"Color":"Amapola","HEX Original":"#FF0033","Color Original":"","HEX Complementario":"#00FFCC","Color Complementario":"","RGB (0-100)":"(100, 0, 20)","RGB (0-255)":"(255, 0, 51)","RYB (0-100)":"(95, 20, 10)"},
+          {"Color":"Amarillo Canario","HEX Original":"#FFEF00","Color Original":"","HEX Complementario":"#0010FF","Color Complementario":"","RGB (0-100)":"(100, 94, 0)","RGB (0-255)":"(255, 239, 0)","RYB (0-100)":"(15, 85, 0)"},
+          {"Color":"Amatista","HEX Original":"#9966CC","Color Original":"","HEX Complementario":"#669933","Color Complementario":"","RGB (0-100)":"(60, 40, 80)","RGB (0-255)":"(153, 102, 204)","RYB (0-100)":"(40, 0, 50)"},
+          {"Color":"Ámbar","HEX Original":"#FFBF00","Color Original":"","HEX Complementario":"#0040FF","Color Complementario":"","RGB (0-100)":"(100, 75, 0)","RGB (0-255)":"(255, 191, 0)","RYB (0-100)":"(30, 70, 0)"},
+          {"Color":"Añil","HEX Original":"#4B0082","Color Original":"","HEX Complementario":"#B4FF7D","Color Complementario":"","RGB (0-100)":"(29, 0, 51)","RGB (0-255)":"(75, 0, 130)","RYB (0-100)":"(25, 0, 100)"},
+          {"Color":"Arándano","HEX Original":"#5B92E5","Color Original":"","HEX Complementario":"#A46D1A","Color Complementario":"","RGB (0-100)":"(36, 57, 90)","RGB (0-255)":"(91, 146, 229)","RYB (0-100)":"(15, 20, 75)"},
+          {"Color":"Arcilla","HEX Original":"#A75D5D","Color Original":"","HEX Complementario":"#58A2A2","Color Complementario":"","RGB (0-100)":"(65, 36, 36)","RGB (0-255)":"(167, 93, 93)","RYB (0-100)":"(50, 30, 20)"},
+          {"Color":"Arena Dorada","HEX Original":"#F2D2BD","Color Original":"","HEX Complementario":"#0D2D42","Color Complementario":"","RGB (0-100)":"(95, 82, 74)","RGB (0-255)":"(242, 210, 189)","RYB (0-100)":"(25, 20, 10)"},
+          {"Color":"Aurora Boreal","HEX Original":"#7DF9FF","Color Original":"","HEX Complementario":"#820600","Color Complementario":"","RGB (0-100)":"(49, 98, 100)","RGB (0-255)":"(125, 249, 255)","RYB (0-100)":"(0, 30, 60)"},
+          {"Color":"Azul","HEX Original":"#0000FF","Color Original":"","HEX Complementario":"#FF0000","Color Complementario":"","RGB (0-100)":"(0, 0, 100)","RGB (0-255)":"(0, 0, 255)","RYB (0-100)":"(0, 0, 100)"},
+          {"Color":"Azul Acero","HEX Original":"#4682B4","Color Original":"","HEX Complementario":"#B97D4B","Color Complementario":"","RGB (0-100)":"(27, 51, 71)","RGB (0-255)":"(70, 130, 180)","RYB (0-100)":"(0, 20, 60)"},
+          {"Color":"Azul Cielo","HEX Original":"#87CEEB","Color Original":"","HEX Complementario":"#783114","Color Complementario":"","RGB (0-100)":"(53, 81, 92)","RGB (0-255)":"(135, 206, 235)","RYB (0-100)":"(0, 30, 40)"},
+          {"Color":"Azul Eléctrico","HEX Original":"#7DF9FF","Color Original":"","HEX Complementario":"#820600","Color Complementario":"","RGB (0-100)":"(49, 98, 100)","RGB (0-255)":"(125, 249, 255)","RYB (0-100)":"(0, 25, 65)"},
+          {"Color":"Azul Marino","HEX Original":"#000080","Color Original":"","HEX Complementario":"#FF007F","Color Complementario":"","RGB (0-100)":"(0, 0, 50)","RGB (0-255)":"(0, 0, 128)","RYB (0-100)":"(0, 0, 75)"},
+          {"Color":"Azul Pavo","HEX Original":"#00BFFF","Color Original":"","HEX Complementario":"#FF4000","Color Complementario":"","RGB (0-100)":"(0, 75, 100)","RGB (0-255)":"(0, 191, 255)","RYB (0-100)":"(0, 25, 75)"},
+          {"Color":"Azul Petróleo","HEX Original":"#086A87","Color Original":"","HEX Complementario":"#F79578","Color Complementario":"","RGB (0-100)":"(3, 42, 53)","RGB (0-255)":"(8, 106, 135)","RYB (0-100)":"(0, 25, 75)"},
+          {"Color":"Azul Real","HEX Original":"#4169E1","Color Original":"","HEX Complementario":"#BE961E","Color Complementario":"","RGB (0-100)":"(25, 41, 88)","RGB (0-255)":"(65, 105, 225)","RYB (0-100)":"(0, 20, 80)"},
+          {"Color":"Azul Turquí","HEX Original":"#2F4F4F","Color Original":"","HEX Complementario":"#D0B0B0","Color Complementario":"","RGB (0-100)":"(18, 31, 31)","RGB (0-255)":"(47, 79, 79)","RYB (0-100)":"(0, 20, 60)"},
+          {"Color":"Bambú","HEX Original":"#B5A642","Color Original":"","HEX Complementario":"#4A59BD","Color Complementario":"","RGB (0-100)":"(71, 65, 26)","RGB (0-255)":"(181, 166, 66)","RYB (0-100)":"(25, 65, 10)"},
+          {"Color":"Beige","HEX Original":"#F5F5DC","Color Original":"","HEX Complementario":"#0AAAF5","Color Complementario":"","RGB (0-100)":"(96, 96, 86)","RGB (0-255)":"(245, 245, 220)","RYB (0-100)":"(10, 10, 10)"},
+          {"Color":"Bermellón","HEX Original":"#E34234","Color Original":"","HEX Complementario":"#1CBDCB","Color Complementario":"","RGB (0-100)":"(89, 26, 20)","RGB (0-255)":"(227, 66, 52)","RYB (0-100)":"(90, 30, 10)"},
+          {"Color":"Blanco","HEX Original":"#FFFFFF","Color Original":"","HEX Complementario":"#000000","Color Complementario":"","RGB (0-100)":"(100, 100, 100)","RGB (0-255)":"(255, 255, 255)","RYB (0-100)":"(0, 0, 0)"},
+          {"Color":"Borgoña","HEX Original":"#800020","Color Original":"","HEX Complementario":"#7F00DF","Color Complementario":"","RGB (0-100)":"(50, 0, 13)","RGB (0-255)":"(128, 0, 32)","RYB (0-100)":"(80, 10, 30)"},
+          {"Color":"Brezo","HEX Original":"#D6A4B1","Color Original":"","HEX Complementario":"#295B4E","Color Complementario":"","RGB (0-100)":"(84, 64, 69)","RGB (0-255)":"(214, 164, 177)","RYB (0-100)":"(40, 20, 15)"},
+          {"Color":"Brezo Escocés","HEX Original":"#6B5876","Color Original":"","HEX Complementario":"#94A789","Color Complementario":"","RGB (0-100)":"(42, 35, 46)","RGB (0-255)":"(107, 88, 118)","RYB (0-100)":"(35, 15, 40)"},
+          {"Color":"Bronce","HEX Original":"#CD7F32","Color Original":"","HEX Complementario":"#3280CD","Color Complementario":"","RGB (0-100)":"(80, 50, 20)","RGB (0-255)":"(205, 127, 50)","RYB (0-100)":"(55, 60, 15)"},
+          {"Color":"Burdeos","HEX Original":"#722F37","Color Original":"","HEX Complementario":"#8DD0C8","Color Complementario":"","RGB (0-100)":"(45, 18, 22)","RGB (0-255)":"(114, 47, 55)","RYB (0-100)":"(60, 20, 30)"},
+          {"Color":"Café","HEX Original":"#6F4E37","Color Original":"","HEX Complementario":"#90B1C8","Color Complementario":"","RGB (0-100)":"(44, 31, 22)","RGB (0-255)":"(111, 78, 55)","RYB (0-100)":"(35, 45, 40)"},
+          {"Color":"Calabaza","HEX Original":"#FF7518","Color Original":"","HEX Complementario":"#008AE7","Color Complementario":"","RGB (0-100)":"(100, 46, 9)","RGB (0-255)":"(255, 117, 24)","RYB (0-100)":"(70, 60, 0)"},
+          {"Color":"Caqui","HEX Original":"#C3B091","Color Original":"","HEX Complementario":"#3C4F6E","Color Complementario":"","RGB (0-100)":"(76, 69, 57)","RGB (0-255)":"(195, 176, 145)","RYB (0-100)":"(20, 30, 25)"},
+          {"Color":"Caramelo","HEX Original":"#D2691E","Color Original":"","HEX Complementario":"#2D96E1","Color Complementario":"","RGB (0-100)":"(82, 41, 12)","RGB (0-255)":"(210, 105, 30)","RYB (0-100)":"(60, 60, 10)"},
+          {"Color":"Carbón","HEX Original":"#343434","Color Original":"","HEX Complementario":"#CBCBCB","Color Complementario":"","RGB (0-100)":"(20, 20, 20)","RGB (0-255)":"(52, 52, 52)","RYB (0-100)":"(80, 80, 80)"},
+          {"Color":"Cardo","HEX Original":"#D8BFD8","Color Original":"","HEX Complementario":"#274027","Color Complementario":"","RGB (0-100)":"(85, 75, 85)","RGB (0-255)":"(216, 191, 216)","RYB (0-100)":"(25, 10, 15)"},
+          {"Color":"Carmesí","HEX Original":"#DC143C","Color Original":"","HEX Complementario":"#23EB03","Color Complementario":"","RGB (0-100)":"(86, 8, 24)","RGB (0-255)":"(220, 20, 60)","RYB (0-100)":"(80, 20, 20)"},
+          {"Color":"Celadón","HEX Original":"#ACE1AF","Color Original":"","HEX Complementario":"#531E50","Color Complementario":"","RGB (0-100)":"(67, 88, 69)","RGB (0-255)":"(172, 225, 175)","RYB (0-100)":"(0, 30, 25)"},
+          {"Color":"Ceniza Azul","HEX Original":"#91A3B0","Color Original":"","HEX Complementario":"#6E5C4F","Color Complementario":"","RGB (0-100)":"(57, 64, 69)","RGB (0-255)":"(145, 163, 176)","RYB (0-100)":"(10, 15, 35)"},
+          {"Color":"Ceniza Volcánica","HEX Original":"#544C4A","Color Original":"","HEX Complementario":"#AB03B5","Color Complementario":"","RGB (0-100)":"(33, 30, 29)","RGB (0-255)":"(84, 76, 74)","RYB (0-100)":"(55, 50, 45)"},
+          {"Color":"Cereza","HEX Original":"#DE3163","Color Original":"","HEX Complementario":"#21CE9C","Color Complementario":"","RGB (0-100)":"(87, 19, 39)","RGB (0-255)":"(222, 49, 99)","RYB (0-100)":"(80, 15, 15)"},
+          {"Color":"Cerúleo","HEX Original":"#2A52BE","Color Original":"","HEX Complementario":"#D5AD41","Color Complementario":"","RGB (0-100)":"(16, 32, 75)","RGB (0-255)":"(42, 82, 190)","RYB (0-100)":"(15, 10, 85)"},
+          {"Color":"Chartreuse","HEX Original":"#7FFF00","Color Original":"","HEX Complementario":"#8000FF","Color Complementario":"","RGB (0-100)":"(50, 100, 0)","RGB (0-255)":"(127, 255, 0)","RYB (0-100)":"(0, 100, 0)"},
+          {"Color":"Chocolate","HEX Original":"#7B3F00","Color Original":"","HEX Complementario":"#84C0FF","Color Complementario":"","RGB (0-100)":"(48, 25, 0)","RGB (0-255)":"(123, 63, 0)","RYB (0-100)":"(60, 40, 30)"},
+          {"Color":"Cian","HEX Original":"#00FFFF","Color Original":"","HEX Complementario":"#FF0000","Color Complementario":"","RGB (0-100)":"(0, 100, 100)","RGB (0-255)":"(0, 255, 255)","RYB (0-100)":"(0, 50, 100)"},
+          {"Color":"Cielo de Verano","HEX Original":"#87CEFA","Color Original":"","HEX Complementario":"#783105","Color Complementario":"","RGB (0-100)":"(53, 81, 98)","RGB (0-255)":"(135, 206, 250)","RYB (0-100)":"(0, 25, 45)"},
+          {"Color":"Cielo Nocturno","HEX Original":"#1A1B4B","Color Original":"","HEX Complementario":"#E5E4B4","Color Complementario":"","RGB (0-100)":"(10, 11, 29)","RGB (0-255)":"(26, 27, 75)","RYB (0-100)":"(5, 5, 70)"},
+          {"Color":"Ciruela","HEX Original":"#8E4585","Color Original":"","HEX Complementario":"#71BA7A","Color Complementario":"","RGB (0-100)":"(56, 27, 52)","RGB (0-255)":"(142, 69, 133)","RYB (0-100)":"(50, 10, 40)"},
+          {"Color":"Cobalto","HEX Original":"#0047AB","Color Original":"","HEX Complementario":"#FFB854","Color Complementario":"","RGB (0-100)":"(0, 28, 67)","RGB (0-255)":"(0, 71, 171)","RYB (0-100)":"(0, 15, 85)"},
+          {"Color":"Cobre","HEX Original":"#B87333","Color Original":"","HEX Complementario":"#478CCB","Color Complementario":"","RGB (0-100)":"(72, 45, 20)","RGB (0-255)":"(184, 115, 51)","RYB (0-100)":"(50, 55, 10)"},
+          {"Color":"Coral","HEX Original":"#FF7F50","Color Original":"","HEX Complementario":"#0080AF","Color Complementario":"","RGB (0-100)":"(100, 50, 31)","RGB (0-255)":"(255, 127, 80)","RYB (0-100)":"(75, 50, 0)"},
+          {"Color":"Coral Vivo","HEX Original":"#FF6F61","Color Original":"","HEX Complementario":"#00909E","Color Complementario":"","RGB (0-100)":"(100, 44, 38)","RGB (0-255)":"(255, 111, 97)","RYB (0-100)":"(80, 40, 10)"},
+          {"Color":"Crema","HEX Original":"#FFFDD0","Color Original":"","HEX Complementario":"#00022F","Color Complementario":"","RGB (0-100)":"(100, 99, 82)","RGB (0-255)":"(255, 253, 208)","RYB (0-100)":"(5, 10, 0)"},
+          {"Color":"Cuarzo Rosa","HEX Original":"#F7CAC9","Color Original":"","HEX Complementario":"#083536","Color Complementario":"","RGB (0-100)":"(97, 79, 79)","RGB (0-255)":"(247, 202, 201)","RYB (0-100)":"(35, 20, 5)"},
+          {"Color":"Dorado","HEX Original":"#FFD700","Color Original":"","HEX Complementario":"#0028FF","Color Complementario":"","RGB (0-100)":"(100, 84, 0)","RGB (0-255)":"(255, 215, 0)","RYB (0-100)":"(20, 80, 0)"},
+          {"Color":"Durazno","HEX Original":"#FFCBA4","Color Original":"","HEX Complementario":"#00345B","Color Complementario":"","RGB (0-100)":"(100, 80, 64)","RGB (0-255)":"(255, 203, 164)","RYB (0-100)":"(30, 25, 15)"},
+          {"Color":"Escarlata","HEX Original":"#FF2400","Color Original":"","HEX Complementario":"#00DBFF","Color Complementario":"","RGB (0-100)":"(100, 14, 0)","RGB (0-255)":"(255, 36, 0)","RYB (0-100)":"(100, 15, 0)"},
+          {"Color":"Esmeralda","HEX Original":"#50C878","Color Original":"","HEX Complementario":"#AF3787","Color Complementario":"","RGB (0-100)":"(31, 78, 47)","RGB (0-255)":"(80, 200, 120)","RYB (0-100)":"(0, 70, 30)"},
+          {"Color":"Espliego","HEX Original":"#B57EDC","Color Original":"","HEX Complementario":"#4A8123","Color Complementario":"","RGB (0-100)":"(71, 49, 86)","RGB (0-255)":"(181, 126, 220)","RYB (0-100)":"(40, 0, 30)"},
+          {"Color":"Espuma de Mar","HEX Original":"#A4F4F9","Color Original":"","HEX Complementario":"#5B0B06","Color Complementario":"","RGB (0-100)":"(64, 96, 98)","RGB (0-255)":"(164, 244, 249)","RYB (0-100)":"(0, 25, 35)"},
+          {"Color":"Eucalipto","HEX Original":"#44D7A8","Color Original":"","HEX Complementario":"#BB2857","Color Complementario":"","RGB (0-100)":"(27, 84, 66)","RGB (0-255)":"(68, 215, 168)","RYB (0-100)":"(0, 50, 30)"},
+          {"Color":"Frambuesa","HEX Original":"#E30B5C","Color Original":"","HEX Complementario":"#1CE4A3","Color Complementario":"","RGB (0-100)":"(89, 4, 36)","RGB (0-255)":"(227, 11, 92)","RYB (0-100)":"(90, 10, 20)"},
+          {"Color":"Fucsia","HEX Original":"#FF0080","Color Original":"","HEX Complementario":"#00FF7F","Color Complementario":"","RGB (0-100)":"(100, 0, 50)","RGB (0-255)":"(255, 0, 128)","RYB (0-100)":"(100, 25, 0)"},
+          {"Color":"Glaciar","HEX Original":"#77B5FE","Color Original":"","HEX Complementario":"#884A01","Color Complementario":"","RGB (0-100)":"(47, 71, 100)","RGB (0-255)":"(119, 181, 254)","RYB (0-100)":"(0, 20, 50)"},
+          {"Color":"Granate","HEX Original":"#800000","Color Original":"","HEX Complementario":"#7F0000","Color Complementario":"","RGB (0-100)":"(50, 0, 0)","RGB (0-255)":"(128, 0, 0)","RYB (0-100)":"(75, 25, 25)"},
+          {"Color":"Grava","HEX Original":"#B2BEB5","Color Original":"","HEX Complementario":"#4D414A","Color Complementario":"","RGB (0-100)":"(70, 75, 71)","RGB (0-255)":"(178, 190, 181)","RYB (0-100)":"(15, 15, 20)"},
+          {"Color":"Gris","HEX Original":"#808080","Color Original":"","HEX Complementario":"#7F7F7F","Color Complementario":"","RGB (0-100)":"(50, 50, 50)","RGB (0-255)":"(128, 128, 128)","RYB (0-100)":"(50, 50, 50)"},
+          {"Color":"Hematita","HEX Original":"#434343","Color Original":"","HEX Complementario":"#BCBCBC","Color Complementario":"","RGB (0-100)":"(26, 26, 26)","RGB (0-255)":"(67, 67, 67)","RYB (0-100)":"(70, 70, 70)"},
+          {"Color":"Hierba Seca","HEX Original":"#DBC291","Color Original":"","HEX Complementario":"#243D6E","Color Complementario":"","RGB (0-100)":"(86, 76, 57)","RGB (0-255)":"(219, 194, 145)","RYB (0-100)":"(15, 45, 15)"},
+          {"Color":"Hierro Oxidado","HEX Original":"#B7410E","Color Original":"","HEX Complementario":"#48BEF1","Color Complementario":"","RGB (0-100)":"(72, 25, 5)","RGB (0-255)":"(183, 65, 14)","RYB (0-100)":"(75, 60, 15)"},
+          {"Color":"Hoja de Olivo","HEX Original":"#708238","Color Original":"","HEX Complementario":"#8F7DCA","Color Complementario":"","RGB (0-100)":"(44, 51, 22)","RGB (0-255)":"(112, 130, 56)","RYB (0-100)":"(20, 60, 40)"},
+          {"Color":"Hojas Otoñales","HEX Original":"#C8553D","Color Original":"","HEX Complementario":"#37AA00","Color Complementario":"","RGB (0-100)":"(78, 33, 24)","RGB (0-255)":"(200, 85, 61)","RYB (0-100)":"(65, 50, 15)"},
+          {"Color":"Humo","HEX Original":"#738276","Color Original":"","HEX Complementario":"#8C7D89","Color Complementario":"","RGB (0-100)":"(45, 51, 46)","RGB (0-255)":"(115, 130, 118)","RYB (0-100)":"(15, 25, 35)"},
+          {"Color":"Índigo","HEX Original":"#3F00FF","Color Original":"","HEX Complementario":"#C00000","Color Complementario":"","RGB (0-100)":"(25, 0, 100)","RGB (0-255)":"(63, 0, 255)","RYB (0-100)":"(10, 0, 90)"},
+          {"Color":"Jade","HEX Original":"#00A86B","Color Original":"","HEX Complementario":"#FF5794","Color Complementario":"","RGB (0-100)":"(0, 66, 42)","RGB (0-255)":"(0, 168, 107)","RYB (0-100)":"(0, 50, 30)"},
+          {"Color":"Laurel","HEX Original":"#A9BA9D","Color Original":"","HEX Complementario":"#564562","Color Complementario":"","RGB (0-100)":"(66, 73, 62)","RGB (0-255)":"(169, 186, 157)","RYB (0-100)":"(10, 35, 25)"},
+          {"Color":"Lavanda","HEX Original":"#E6E6FA","Color Original":"","HEX Complementario":"#191905","Color Complementario":"","RGB (0-100)":"(90, 90, 98)","RGB (0-255)":"(230, 230, 250)","RYB (0-100)":"(25, 0, 25)"},
+          {"Color":"Lila","HEX Original":"#C8A2C8","Color Original":"","HEX Complementario":"#375D37","Color Complementario":"","RGB (0-100)":"(78, 64, 78)","RGB (0-255)":"(200, 162, 200)","RYB (0-100)":"(30, 10, 20)"},
+          {"Color":"Lima","HEX Original":"#32CD32","Color Original":"","HEX Complementario":"#CDB2CD","Color Complementario":"","RGB (0-100)":"(20, 80, 20)","RGB (0-255)":"(50, 205, 50)","RYB (0-100)":"(25, 75, 25)"},
+          {"Color":"Magenta","HEX Original":"#FF00FF","Color Original":"","HEX Complementario":"#00FF00","Color Complementario":"","RGB (0-100)":"(100, 0, 100)","RGB (0-255)":"(255, 0, 255)","RYB (0-100)":"(100, 0, 50)"},
+          {"Color":"Magenta Oscuro","HEX Original":"#8B008B","Color Original":"","HEX Complementario":"#74FF74","Color Complementario":"","RGB (0-100)":"(55, 0, 55)","RGB (0-255)":"(139, 0, 139)","RYB (0-100)":"(80, 0, 60)"},
+          {"Color":"Malva","HEX Original":"#E0B0FF","Color Original":"","HEX Complementario":"#1F4FBF","Color Complementario":"","RGB (0-100)":"(88, 69, 100)","RGB (0-255)":"(224, 176, 255)","RYB (0-100)":"(50, 0, 40)"},
+          {"Color":"Marfil","HEX Original":"#FFFFF0","Color Original":"","HEX Complementario":"#00000F","Color Complementario":"","RGB (0-100)":"(100, 100, 94)","RGB (0-255)":"(255, 255, 240)","RYB (0-100)":"(0, 5, 5)"},
+          {"Color":"Marfil Antiguo","HEX Original":"#FAEBD7","Color Original":"","HEX Complementario":"#051428","Color Complementario":"","RGB (0-100)":"(98, 92, 84)","RGB (0-255)":"(250, 235, 215)","RYB (0-100)":"(15, 15, 5)"},
+          {"Color":"Marrón","HEX Original":"#A52A2A","Color Original":"","HEX Complementario":"#5AD5D5","Color Complementario":"","RGB (0-100)":"(65, 16, 16)","RGB (0-255)":"(165, 42, 42)","RYB (0-100)":"(50, 50, 50)"},
+          {"Color":"Matcha","HEX Original":"#AAD384","Color Original":"","HEX Complementario":"#552C7B","Color Complementario":"","RGB (0-100)":"(67, 83, 52)","RGB (0-255)":"(170, 211, 132)","RYB (0-100)":"(15, 60, 10)"},
+          {"Color":"Melocotón","HEX Original":"#FFDAB9","Color Original":"","HEX Complementario":"#002546","Color Complementario":"","RGB (0-100)":"(100, 85, 73)","RGB (0-255)":"(255, 218, 185)","RYB (0-100)":"(30, 20, 10)"},
+          {"Color":"Menta","HEX Original":"#98FB98","Color Original":"","HEX Complementario":"#670467","Color Complementario":"","RGB (0-100)":"(60, 98, 60)","RGB (0-255)":"(152, 251, 152)","RYB (0-100)":"(0, 40, 10)"},
+          {"Color":"Moras Silvestres","HEX Original":"#43115B","Color Original":"","HEX Complementario":"#BC00A4","Color Complementario":"","RGB (0-100)":"(26, 7, 36)","RGB (0-255)":"(67, 17, 91)","RYB (0-100)":"(55, 15, 45)"},
+          {"Color":"Mostaza","HEX Original":"#FFDB58","Color Original":"","HEX Complementario":"#0024A7","Color Complementario":"","RGB (0-100)":"(100, 86, 35)","RGB (0-255)":"(255, 219, 88)","RYB (0-100)":"(20, 80, 0)"},
+          {"Color":"Musgo","HEX Original":"#8A9A5B","Color Original":"","HEX Complementario":"#7565A4","Color Complementario":"","RGB (0-100)":"(54, 60, 36)","RGB (0-255)":"(138, 154, 91)","RYB (0-100)":"(15, 50, 40)"},
+          {"Color":"Nácar","HEX Original":"#FDEEF4","Color Original":"","HEX Complementario":"#02110B","Color Complementario":"","RGB (0-100)":"(99, 93, 96)","RGB (0-255)":"(253, 238, 244)","RYB (0-100)":"(10, 5, 2)"},
+          {"Color":"Naranja","HEX Original":"#FFA500","Color Original":"","HEX Complementario":"#005AFF","Color Complementario":"","RGB (0-100)":"(100, 65, 0)","RGB (0-255)":"(255, 165, 0)","RYB (0-100)":"(50, 50, 0)"},
+          {"Color":"Negro","HEX Original":"#000000","Color Original":"","HEX Complementario":"#FFFFFF","Color Complementario":"","RGB (0-100)":"(0, 0, 0)","RGB (0-255)":"(0, 0, 0)","RYB (0-100)":"(100, 100, 100)"},
+          {"Color":"Neón Rosa","HEX Original":"#FF6EC7","Color Original":"","HEX Complementario":"#009138","Color Complementario":"","RGB (0-100)":"(100, 43, 78)","RGB (0-255)":"(255, 110, 199)","RYB (0-100)":"(65, 15, 10)"},
+          {"Color":"Niebla","HEX Original":"#E6E6E6","Color Original":"","HEX Complementario":"#191919","Color Complementario":"","RGB (0-100)":"(90, 90, 90)","RGB (0-255)":"(230, 230, 230)","RYB (0-100)":"(10, 10, 10)"},
+          {"Color":"Niebla Marina","HEX Original":"#8EABC1","Color Original":"","HEX Complementario":"#71543E","Color Complementario":"","RGB (0-100)":"(56, 67, 76)","RGB (0-255)":"(142, 171, 193)","RYB (0-100)":"(5, 20, 35)"},
+          {"Color":"Nuez Moscada","HEX Original":"#8B4513","Color Original":"","HEX Complementario":"#74BAEC","Color Complementario":"","RGB (0-100)":"(55, 27, 7)","RGB (0-255)":"(139, 69, 19)","RYB (0-100)":"(60, 55, 20)"},
+          {"Color":"Océano Profundo","HEX Original":"#006994","Color Original":"","HEX Complementario":"#FF966B","Color Complementario":"","RGB (0-100)":"(0, 41, 58)","RGB (0-255)":"(0, 105, 148)","RYB (0-100)":"(0, 25, 75)"},
+          {"Color":"Ocre","HEX Original":"#CC7722","Color Original":"","HEX Complementario":"#3388DD","Color Complementario":"","RGB (0-100)":"(80, 47, 13)","RGB (0-255)":"(204, 119, 34)","RYB (0-100)":"(20, 80, 20)"},
+          {"Color":"Ónix","HEX Original":"#353839","Color Original":"","HEX Complementario":"#CAD7C6","Color Complementario":"","RGB (0-100)":"(21, 22, 22)","RGB (0-255)":"(53, 56, 57)","RYB (0-100)":"(75, 75, 75)"},
+          {"Color":"Orquídea","HEX Original":"#DA70D6","Color Original":"","HEX Complementario":"#258F29","Color Complementario":"","RGB (0-100)":"(85, 44, 84)","RGB (0-255)":"(218, 112, 214)","RYB (0-100)":"(60, 0, 30)"},
+          {"Color":"Óxido Anaranjado","HEX Original":"#C04000","Color Original":"","HEX Complementario":"#3FBF00","Color Complementario":"","RGB (0-100)":"(75, 25, 0)","RGB (0-255)":"(192, 64, 0)","RYB (0-100)":"(65, 55, 20)"},
+          {"Color":"Óxido Antiguo","HEX Original":"#79443B","Color Original":"","HEX Complementario":"#86BBCC","Color Complementario":"","RGB (0-100)":"(47, 27, 23)","RGB (0-255)":"(121, 68, 59)","RYB (0-100)":"(55, 40, 35)"},
+          {"Color":"Óxido Cobrizo","HEX Original":"#78866B","Color Original":"","HEX Complementario":"#877994","Color Complementario":"","RGB (0-100)":"(47, 53, 42)","RGB (0-255)":"(120, 134, 107)","RYB (0-100)":"(20, 40, 35)"},
+          {"Color":"Óxido de Cerio","HEX Original":"#E9DCBE","Color Original":"","HEX Complementario":"#162341","Color Complementario":"","RGB (0-100)":"(91, 86, 75)","RGB (0-255)":"(233, 220, 190)","RYB (0-100)":"(15, 20, 10)"},
+          {"Color":"Óxido de Cobalto","HEX Original":"#064E40","Color Original":"","HEX Complementario":"#F9B1BF","Color Complementario":"","RGB (0-100)":"(2, 31, 25)","RGB (0-255)":"(6, 78, 64)","RYB (0-100)":"(0, 55, 60)"},
+          {"Color":"Óxido de Cobre","HEX Original":"#7BAEA3","Color Original":"","HEX Complementario":"#84515C","Color Complementario":"","RGB (0-100)":"(48, 68, 64)","RGB (0-255)":"(123, 174, 163)","RYB (0-100)":"(5, 40, 30)"},
+          {"Color":"Óxido de Cromo","HEX Original":"#3D8B37","Color Original":"","HEX Complementario":"#C274C8","Color Complementario":"","RGB (0-100)":"(24, 55, 22)","RGB (0-255)":"(61, 139, 55)","RYB (0-100)":"(10, 75, 40)"},
+          {"Color":"Óxido de Hierro","HEX Original":"#8B3103","Color Original":"","HEX Complementario":"#74CEFC","Color Complementario":"","RGB (0-100)":"(55, 19, 1)","RGB (0-255)":"(139, 49, 3)","RYB (0-100)":"(70, 50, 25)"},
+          {"Color":"Óxido de Manganeso","HEX Original":"#3D0C02","Color Original":"","HEX Complementario":"#C2F3FD","Color Complementario":"","RGB (0-100)":"(24, 5, 1)","RGB (0-255)":"(61, 12, 2)","RYB (0-100)":"(75, 70, 45)"},
+          {"Color":"Óxido de Titanio","HEX Original":"#D5D6D6","Color Original":"","HEX Complementario":"#2A2929","Color Complementario":"","RGB (0-100)":"(84, 84, 84)","RGB (0-255)":"(213, 214, 214)","RYB (0-100)":"(20, 20, 20)"},
+          {"Color":"Óxido de Zinc","HEX Original":"#F5F5F5","Color Original":"","HEX Complementario":"#0A0A0A","Color Complementario":"","RGB (0-100)":"(96, 96, 96)","RGB (0-255)":"(245, 245, 245)","RYB (0-100)":"(5, 5, 5)"},
+          {"Color":"Óxido Rojizo","HEX Original":"#A52A2A","Color Original":"","HEX Complementario":"#5AD5D5","Color Complementario":"","RGB (0-100)":"(65, 16, 16)","RGB (0-255)":"(165, 42, 42)","RYB (0-100)":"(75, 35, 30)"},
+          {"Color":"Óxido Verdoso","HEX Original":"#4E6E58","Color Original":"","HEX Complementario":"#B191A7","Color Complementario":"","RGB (0-100)":"(31, 43, 35)","RGB (0-255)":"(78, 110, 88)","RYB (0-100)":"(15, 45, 40)"},
+          {"Color":"Pátina","HEX Original":"#659C89","Color Original":"","HEX Complementario":"#9A6376","Color Complementario":"","RGB (0-100)":"(40, 61, 54)","RGB (0-255)":"(101, 156, 137)","RYB (0-100)":"(10, 45, 30)"},
+          {"Color":"Perla","HEX Original":"#F0EAD6","Color Original":"","HEX Complementario":"#0F1529","Color Complementario":"","RGB (0-100)":"(94, 92, 84)","RGB (0-255)":"(240, 234, 214)","RYB (0-100)":"(10, 10, 15)"},
+          {"Color":"Petróleo","HEX Original":"#0B3B3D","Color Original":"","HEX Complementario":"#F4C4C2","Color Complementario":"","RGB (0-100)":"(4, 23, 24)","RGB (0-255)":"(11, 59, 61)","RYB (0-100)":"(0, 30, 70)"},
+          {"Color":"Pistacho","HEX Original":"#93C572","Color Original":"","HEX Complementario":"#6C3A8D","Color Complementario":"","RGB (0-100)":"(58, 77, 45)","RGB (0-255)":"(147, 197, 114)","RYB (0-100)":"(5, 65, 15)"},
+          {"Color":"Pizarra","HEX Original":"#708090","Color Original":"","HEX Complementario":"#8F7F6F","Color Complementario":"","RGB (0-100)":"(44, 50, 56)","RGB (0-255)":"(112, 128, 144)","RYB (0-100)":"(10, 15, 50)"},
+          {"Color":"Plátano","HEX Original":"#FFE135","Color Original":"","HEX Complementario":"#001EEA","Color Complementario":"","RGB (0-100)":"(100, 88, 21)","RGB (0-255)":"(255, 225, 53)","RYB (0-100)":"(15, 85, 0)"},
+          {"Color":"Plateado","HEX Original":"#C0C0C0","Color Original":"","HEX Complementario":"#3F3F3F","Color Complementario":"","RGB (0-100)":"(75, 75, 75)","RGB (0-255)":"(192, 192, 192)","RYB (0-100)":"(25, 25, 25)"},
+          {"Color":"Polvo Estelar","HEX Original":"#8F8F8F","Color Original":"","HEX Complementario":"#707070","Color Complementario":"","RGB (0-100)":"(56, 56, 56)","RGB (0-255)":"(143, 143, 143)","RYB (0-100)":"(40, 40, 40)"},
+          {"Color":"Prairie","HEX Original":"#9E9764","Color Original":"","HEX Complementario":"#61689B","Color Complementario":"","RGB (0-100)":"(62, 59, 39)","RGB (0-255)":"(158, 151, 100)","RYB (0-100)":"(20, 55, 15)"},
+          {"Color":"Púrpura","HEX Original":"#800080","Color Original":"","HEX Complementario":"#7F007F","Color Complementario":"","RGB (0-100)":"(50, 0, 50)","RGB (0-255)":"(128, 0, 128)","RYB (0-100)":"(75, 0, 75)"},
+          {"Color":"Roble","HEX Original":"#987654","Color Original":"","HEX Complementario":"#6789AB","Color Complementario":"","RGB (0-100)":"(60, 46, 33)","RGB (0-255)":"(152, 118, 84)","RYB (0-100)":"(40, 50, 30)"},
+          {"Color":"Roca Volcánica","HEX Original":"#686868","Color Original":"","HEX Complementario":"#979797","Color Complementario":"","RGB (0-100)":"(41, 41, 41)","RGB (0-255)":"(104, 104, 104)","RYB (0-100)":"(60, 60, 60)"},
+          {"Color":"Rojo","HEX Original":"#FF0000","Color Original":"","HEX Complementario":"#0000FF","Color Complementario":"","RGB (0-100)":"(100, 0, 0)","RGB (0-255)":"(255, 0, 0)","RYB (0-100)":"(100, 0, 0)"},
+          {"Color":"Rojo Carmín","HEX Original":"#960018","Color Original":"","HEX Complementario":"#69FF00","Color Complementario":"","RGB (0-100)":"(59, 0, 9)","RGB (0-255)":"(150, 0, 24)","RYB (0-100)":"(85, 30, 25)"},
+          {"Color":"Rosa","HEX Original":"#FFC0CB","Color Original":"","HEX Complementario":"#003F7F","Color Complementario":"","RGB (0-100)":"(100, 75, 80)","RGB (0-255)":"(255, 192, 203)","RYB (0-100)":"(50, 20, 20)"},
+          {"Color":"Salmón","HEX Original":"#FA8072","Color Original":"","HEX Complementario":"#057F8D","Color Complementario":"","RGB (0-100)":"(98, 50, 45)","RGB (0-255)":"(250, 128, 114)","RYB (0-100)":"(70, 30, 10)"},
+          {"Color":"Selenita","HEX Original":"#E6E6FA","Color Original":"","HEX Complementario":"#191905","Color Complementario":"","RGB (0-100)":"(90, 90, 98)","RGB (0-255)":"(230, 230, 250)","RYB (0-100)":"(10, 10, 25)"},
+          {"Color":"Teal Vintage","HEX Original":"#008080","Color Original":"","HEX Complementario":"#FF7F7F","Color Complementario":"","RGB (0-100)":"(0, 50, 50)","RGB (0-255)":"(0, 128, 128)","RYB (0-100)":"(0, 40, 60)"},
+          {"Color":"Terracota","HEX Original":"#E2725B","Color Original":"","HEX Complementario":"#1D8DA4","Color Complementario":"","RGB (0-100)":"(89, 45, 36)","RGB (0-255)":"(226, 114, 91)","RYB (0-100)":"(70, 40, 20)"},
+          {"Color":"Tiera Siena","HEX Original":"#882D17","Color Original":"","HEX Complementario":"#77D2E8","Color Complementario":"","RGB (0-100)":"(53, 18, 9)","RGB (0-255)":"(136, 45, 23)","RYB (0-100)":"(65, 45, 30)"},
+          {"Color":"Tierra Húmeda","HEX Original":"#622F22","Color Original":"","HEX Complementario":"#9DD0DD","Color Complementario":"","RGB (0-100)":"(38, 18, 13)","RGB (0-255)":"(98, 47, 34)","RYB (0-100)":"(50, 40, 35)"},
+          {"Color":"Tinta de Calamar","HEX Original":"#464756","Color Original":"","HEX Complementario":"#B9B8A9","Color Complementario":"","RGB (0-100)":"(27, 28, 34)","RGB (0-255)":"(70, 71, 86)","RYB (0-100)":"(25, 25, 60)"},
+          {"Color":"Titanio","HEX Original":"#878681","Color Original":"","HEX Complementario":"#78797E","Color Complementario":"","RGB (0-100)":"(53, 53, 51)","RGB (0-255)":"(135, 134, 129)","RYB (0-100)":"(45, 45, 40)"},
+          {"Color":"Tormenta","HEX Original":"#4F666A","Color Original":"","HEX Complementario":"#B09995","Color Complementario":"","RGB (0-100)":"(31, 40, 42)","RGB (0-255)":"(79, 102, 106)","RYB (0-100)":"(10, 15, 60)"},
+          {"Color":"Turquesa","HEX Original":"#40E0D0","Color Original":"","HEX Complementario":"#BFFF2F","Color Complementario":"","RGB (0-100)":"(25, 88, 82)","RGB (0-255)":"(64, 224, 208)","RYB (0-100)":"(0, 25, 50)"},
+          {"Color":"Ultramar","HEX Original":"#120A8F","Color Original":"","HEX Complementario":"#EDF570","Color Complementario":"","RGB (0-100)":"(7, 4, 56)","RGB (0-255)":"(18, 10, 143)","RYB (0-100)":"(5, 0, 95)"},
+          {"Color":"Verde","HEX Original":"#00FF00","Color Original":"","HEX Complementario":"#FF00FF","Color Complementario":"","RGB (0-100)":"(0, 100, 0)","RGB (0-255)":"(0, 255, 0)","RYB (0-100)":"(0, 100, 100)"},
+          {"Color":"Verde Agua","HEX Original":"#66CDAA","Color Original":"","HEX Complementario":"#993255","Color Complementario":"","RGB (0-100)":"(40, 80, 67)","RGB (0-255)":"(102, 205, 170)","RYB (0-100)":"(0, 45, 35)"},
+          {"Color":"Verde Bosque","HEX Original":"#228B22","Color Original":"","HEX Complementario":"#DD74DD","Color Complementario":"","RGB (0-100)":"(13, 55, 13)","RGB (0-255)":"(34, 139, 34)","RYB (0-100)":"(0, 80, 50)"},
+          {"Color":"Verde Botella","HEX Original":"#006A4E","Color Original":"","HEX Complementario":"#FF95B1","Color Complementario":"","RGB (0-100)":"(0, 42, 31)","RGB (0-255)":"(0, 106, 78)","RYB (0-100)":"(0, 70, 50)"},
+          {"Color":"Verde Esmeralda","HEX Original":"#046307","Color Original":"","HEX Complementario":"#FBAAC8","Color Complementario":"","RGB (0-100)":"(2, 39, 3)","RGB (0-255)":"(4, 99, 7)","RYB (0-100)":"(0, 90, 80)"},
+          {"Color":"Verde Manzana","HEX Original":"#8DB600","Color Original":"","HEX Complementario":"#7249FF","Color Complementario":"","RGB (0-100)":"(55, 71, 0)","RGB (0-255)":"(141, 182, 0)","RYB (0-100)":"(20, 80, 0)"},
+          {"Color":"Verde Menta","HEX Original":"#3EB489","Color Original":"","HEX Complementario":"#C14B76","Color Complementario":"","RGB (0-100)":"(24, 71, 54)","RGB (0-255)":"(62, 180, 137)","RYB (0-100)":"(0, 60, 25)"},
+          {"Color":"Verde Militar","HEX Original":"#4B5320","Color Original":"","HEX Complementario":"#B4ACDF","Color Complementario":"","RGB (0-100)":"(29, 33, 13)","RGB (0-255)":"(75, 83, 32)","RYB (0-100)":"(10, 60, 40)"},
+          {"Color":"Verde Oliva","HEX Original":"#808000","Color Original":"","HEX Complementario":"#7F7FFF","Color Complementario":"","RGB (0-100)":"(50, 50, 0)","RGB (0-255)":"(128, 128, 0)","RYB (0-100)":"(25, 75, 50)"},
+          {"Color":"Verde Pino","HEX Original":"#01796F","Color Original":"","HEX Complementario":"#FE8690","Color Complementario":"","RGB (0-100)":"(0, 47, 44)","RGB (0-255)":"(1, 121, 111)","RYB (0-100)":"(0, 60, 45)"},
+          {"Color":"Verde Sauce","HEX Original":"#6B8E23","Color Original":"","HEX Complementario":"#9471DC","Color Complementario":"","RGB (0-100)":"(42, 56, 14)","RGB (0-255)":"(107, 142, 35)","RYB (0-100)":"(15, 70, 30)"},
+          {"Color":"Verdigris","HEX Original":"#43B3AE","Color Original":"","HEX Complementario":"#BC4C41","Color Complementario":"","RGB (0-100)":"(26, 70, 68)","RGB (0-255)":"(67, 179, 174)","RYB (0-100)":"(0, 35, 45)"},
+          {"Color":"Vino","HEX Original":"#722F37","Color Original":"","HEX Complementario":"#8D70C8","Color Complementario":"","RGB (0-100)":"(45, 18, 22)","RGB (0-255)":"(114, 47, 55)","RYB (0-100)":"(70, 20, 30)"},
+          {"Color":"Violeta","HEX Original":"#8A2BE2","Color Original":"","HEX Complementario":"#75D41D","Color Complementario":"","RGB (0-100)":"(54, 17, 89)","RGB (0-255)":"(138, 43, 226)","RYB (0-100)":"(50, 0, 50)"}
+        ];
+
+        const container = document.getElementById('colorList');
+
+        data.forEach(color => {
+            const item = document.createElement('div');
+            item.className = 'color-item';
+            item.innerHTML = `
+                <div class="color-strip">
+                    <div class="color-block" style="background-color:${color['HEX Original']}"></div>
+                    <div class="color-block" style="background-color:${color['HEX Complementario']}"></div>
+                </div>
+                <div class="color-name">${color.Color}</div>
+            `;
+            item.addEventListener('click', () => {
+                localStorage.setItem('selectedColor', JSON.stringify(color));
+                window.location.href = 'detalle.html';
+            });
+            container.appendChild(item);
+        });
+    </script>
+</body>
+</html>

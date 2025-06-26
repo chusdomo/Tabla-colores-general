@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Color</title>
+    <style>
+        body {
+            font-size: 2rem;
+            margin: 5;
+            padding: 5;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        header {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .details {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .strip {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+        .block {
+            width: 45%;
+            height: 80px;
+            border-radius: 10px;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Detalles del Color</h1>
+    </header>
+
+    <div class="details" id="details">
+        <div class="detail-row"><span class="label">Nombre:</span><span id="nombre"></span></div>
+        <div class="detail-row"><span class="label">HEX Original:</span><span id="hexOriginal"></span></div>
+        <div class="detail-row"><span class="label">HEX Complementario:</span><span id="hexComplementario"></span></div>
+        <div class="detail-row"><span class="label">RYB (0-100):</span><span id="ryb"></span></div>
+        <div class="detail-row"><span class="label">RGB (0-100):</span><span id="rgb100"></span></div>
+        <div class="detail-row"><span class="label">RGB (0-255):</span><span id="rgb255"></span></div>
+
+        <div class="strip">
+            <div class="block" id="originalBlock"></div>
+            <div class="block" id="complementarioBlock"></div>
+        </div>
+    </div>
+
+    <a href="index.html">Volver</a>
+
+    <script>
+        const color = JSON.parse(localStorage.getItem('selectedColor'));
+        if (!color) {
+            document.getElementById('details').innerHTML = '<p>No se ha seleccionado ningún color.</p>';
+        } else {
+            document.getElementById('nombre').textContent = color.Color;
+            document.getElementById('hexOriginal').textContent = color['HEX Original'];
+            document.getElementById('hexComplementario').textContent = color['HEX Complementario'];
+            document.getElementById('ryb').textContent = color['RYB (0-100)'];
+            document.getElementById('rgb100').textContent = color['RGB (0-100)'];
+            document.getElementById('rgb255').textContent = color['RGB (0-255)'];
+
+            document.getElementById('originalBlock').style.backgroundColor = color['HEX Original'];
+            document.getElementById('complementarioBlock').style.backgroundColor = color['HEX Complementario'];
+        }
+    </script>
+</body>
+</html>
